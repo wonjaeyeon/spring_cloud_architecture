@@ -6,4 +6,4 @@ This project is Spring Cloud Architecture project to generalize the Spring Cloud
 
 ## reference documentation
 - [Spring Cloud - Spring IO](https://spring.io/projects/spring-cloud)
-
+- [🚀 🔥 Mastering Microservices: Spring boot, Spring Cloud and Keycloak In 7 Hours](https://www.youtube.com/watch?v=jdeSV0GRvwI&ab_channel=BoualiAli)
