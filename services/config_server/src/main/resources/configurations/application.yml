@@ -1,0 +1,12 @@
+# 상속을 해주는 yml
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+spring:
+  cloud:
+    config:
+      override-system-properties: false # 다른 yml이 override하지 못하게 함
