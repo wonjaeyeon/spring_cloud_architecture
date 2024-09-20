@@ -1,0 +1,28 @@
+spring:
+  ## want to add postgresql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/spring_msa_order
+    username: root
+    password: 135135won
+    driver-class-name: org.postgresql.Driver
+
+  # if table not exist, create table
+  jpa:
+    hibernate:
+      ddl-auto: create
+    #    properties:
+    #      hibernate:
+    #        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+
+server:
+  port: 8070
+
+
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customers # 임시로 (원래는 instance가 random하게 증가하는 것도 고려해야 함)
+    product-url: http://localhost:8222/api/v1/products
+    payment-url: http://localhost:8222/api/v1/payments
