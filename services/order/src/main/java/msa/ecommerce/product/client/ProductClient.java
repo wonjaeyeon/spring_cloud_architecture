@@ -1,7 +1,7 @@
 package msa.ecommerce.product.client;
 
 import lombok.RequiredArgsConstructor;
-import msa.ecommerce.order.exception.BusinessException;
+import msa.ecommerce.exception.BusinessException;
 import msa.ecommerce.product.request.PurchaseRequest;
 import msa.ecommerce.product.request.PurchaseResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.awt.*;
 import java.util.List;
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;

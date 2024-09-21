@@ -1,6 +1,8 @@
-package msa.ecommerce.order.handler;
+package msa.ecommerce.handler;
 
-import msa.ecommerce.order.exception.OrderNotFoundException;
+import msa.ecommerce.exception.BusinessException;
+import msa.ecommerce.exception.OrderLineNotfoundException;
+import msa.ecommerce.exception.OrderNotFoundException;
 import msa.ecommerce.order.request.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handle(OrderNotFoundException e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(OrderLineNotfoundException.class)
+    public ResponseEntity<String> handle(OrderLineNotfoundException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
+    }
+
+    //NOTE : Business Exception Handler
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<String> handle(BusinessException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
 

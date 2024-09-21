@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Confirmation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Payment Successful</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Order Reference: <span th:text="${paymentConfirmation.order_reference}"></span></h5>
+            <p class="card-text">
+                Thank you, <span th:text="${paymentConfirmation.customer_first_name} + ' ' + ${paymentConfirmation.customer_last_name}"></span>!
+            </p>
+            <p class="card-text">Your payment of
+                <strong th:text="${#numbers.formatDecimal(paymentConfirmation.total_amount, 2, 'COMMA', 'POINT')}"></strong>
+                has been received successfully.
+            </p>
+            <p class="card-text">Payment Method: <strong th:text="${paymentConfirmation.payment_method}"></strong></p>
+            <p class="card-text">A confirmation email has been sent to: <strong th:text="${paymentConfirmation.customer_email}"></strong></p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/" class="btn btn-primary">Go Back to Home</a>
+    </div>
+</div>
+</body>
+</html>

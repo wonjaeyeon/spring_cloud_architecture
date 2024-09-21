@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import msa.ecommerce.order.request.OrderRequest;
 import msa.ecommerce.order.request.OrderResponse;
 import msa.ecommerce.order.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +19,15 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+    public ResponseEntity<List<OrderResponse>> findAll() {
         // get all orders
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrders());
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.findAll());
     }
 
     @GetMapping("/{order_id}")
-    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Integer orderId) {
+    public ResponseEntity<OrderResponse> findById(@PathVariable Integer order_id) {
         // get order by id
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.findById(orderId));
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.findById(order_id));
     }
 
     @PostMapping
@@ -37,7 +36,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(orderRequest));
     }
 
-    @PutMapping()
+    @PutMapping
     public void updateOrder(@RequestBody @Valid OrderRequest orderRequest) {
         orderService.updateOrder(orderRequest);
     }

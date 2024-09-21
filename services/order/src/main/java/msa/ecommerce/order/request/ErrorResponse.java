@@ -1,4 +1,6 @@
 package msa.ecommerce.order.request;
 
-public record ErrorResponse(java.util.HashMap<String, String> errors) {
+import java.util.HashMap;
+
+public record ErrorResponse(HashMap<String, String> errors) {
 }

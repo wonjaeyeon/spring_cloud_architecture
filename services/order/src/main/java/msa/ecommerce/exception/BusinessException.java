@@ -1,4 +1,4 @@
-package msa.ecommerce.order.exception;
+package msa.ecommerce.exception;
 
 
 import lombok.Data;

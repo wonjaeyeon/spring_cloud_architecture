@@ -3,14 +3,18 @@ package msa.ecommerce.order.service;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import msa.ecommerce.customer.client.CustomerClient;
+import msa.ecommerce.kafka.request.OrderConfirmation;
+import msa.ecommerce.kafka.service.OrderProducer;
 import msa.ecommerce.order.entity.Order;
-import msa.ecommerce.order.exception.BusinessException;
-import msa.ecommerce.order.exception.OrderNotFoundException;
+import msa.ecommerce.exception.BusinessException;
+import msa.ecommerce.exception.OrderNotFoundException;
 import msa.ecommerce.order.repository.OrderRepository;
 import msa.ecommerce.order.request.OrderRequest;
 import msa.ecommerce.order.request.OrderResponse;
 import msa.ecommerce.order_line.request.OrderLineRequest;
 import msa.ecommerce.order_line.service.OrderLineService;
+import msa.ecommerce.payment.client.PaymentClient;
+import msa.ecommerce.payment.request.PaymentRequest;
 import msa.ecommerce.product.client.ProductClient;
 import msa.ecommerce.product.request.PurchaseRequest;
 import org.apache.commons.lang.StringUtils;
@@ -37,7 +41,11 @@ public class OrderService {
 
     private final ProductClient productClient;
 
-    public List<OrderResponse> getOrders() {
+    private final OrderProducer orderProducer;
+
+    private final PaymentClient paymentClient;
+
+    public List<OrderResponse> findAll() {
         return orderRepository.findAll().stream()
                 .map(orderMapper::fromOrder)
                 .collect(Collectors.toList());
@@ -63,7 +71,7 @@ public class OrderService {
                         String.format("Customer with id %s not found", orderRequest.customer_id())
                 ));
         // purchase the products --> product-ms(RestTemplate)
-        this.productClient.purchaseProducts(orderRequest.products());
+        var purchaseProducts = this.productClient.purchaseProducts(orderRequest.products());
 
         // persist the order
         Order order = orderMapper.toOrder(orderRequest);
@@ -83,9 +91,30 @@ public class OrderService {
         }
 
         // TODO : start the payment process
+        var paymentRequest = new PaymentRequest(
+                orderRequest.total_amount(),
+                orderRequest.payment_method(),
+                order.getId(),
+                order.getReference(),
+                customer
+
+        );
+
+        paymentClient.requestOrderPayment(
+                paymentRequest
+        );
+
 
         // send the order confirmation --> notification-ms (Kafka)
-
+        orderProducer.sendOrderConfirmation(
+                new OrderConfirmation(
+                        orderRequest.reference(),
+                        orderRequest.total_amount(),
+                        orderRequest.payment_method(),
+                        customer,
+                        purchaseProducts
+                )
+        );
 
         return order.getId();
     }
