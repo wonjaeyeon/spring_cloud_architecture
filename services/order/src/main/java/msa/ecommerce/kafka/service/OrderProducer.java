@@ -3,7 +3,6 @@ package msa.ecommerce.kafka.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.ecommerce.kafka.request.OrderConfirmation;
-import msa.ecommerce.order.entity.Order;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
@@ -21,7 +20,7 @@ public class OrderProducer {
         log.info("Sending order confirmation: {}", orderConfirmation);
         Message<OrderConfirmation> message = MessageBuilder
                 .withPayload(orderConfirmation)
-                .setHeader(KafkaHeaders.TOPIC, "order-confirmation")
+                .setHeader(KafkaHeaders.TOPIC, "order-topic") // 이 부분을 잘못 적음
                 .build();
         kafkaTemplate.send(message);
     }

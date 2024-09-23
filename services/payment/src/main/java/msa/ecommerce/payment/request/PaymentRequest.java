@@ -14,11 +14,11 @@ import static jakarta.persistence.EnumType.STRING;
 public record PaymentRequest(
 
         Integer payment_id,
-        @NotNull
+        //@NotNull
         BigDecimal payment_amount,
-        @Enumerated(STRING)
+        //@Enumerated(STRING)
         PaymentMethod payment_method,
-        @NotNull
+        //@NotNull
         Integer order_id,
         String order_reference,
         Customer customer

@@ -7,7 +7,7 @@ spring:
     password: 135135won
     driver-class-name: org.postgresql.Driver
 
-  # if table not exist, create table
+
   jpa:
     hibernate:
       ddl-auto: validate

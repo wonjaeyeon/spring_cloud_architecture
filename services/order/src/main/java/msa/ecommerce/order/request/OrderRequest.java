@@ -13,7 +13,7 @@ import java.util.List;
 import static jakarta.persistence.EnumType.STRING;
 
 public record OrderRequest(
-        @NotNull
+
         Integer order_id,
 
         @NotNull

@@ -31,6 +31,17 @@ public class CustomerService {
     }
 
     public CustomerResponse findById(String customerId) {
+        System.out.println("---------------------CustomerService.findById---------------------");
+        System.out.println("customerId = " + customerId);
+        System.out.println("customerRepository.findById(customerId) = " + customerRepository.findById(customerId));
+        System.out.println("customerRepository.findById(customerId).map(customerMapper::fromCustomer) = " + customerRepository.findById(customerId).map(customerMapper::fromCustomer));
+        System.out.println("CustomerResponse.firstName() = " + customerRepository.findById(customerId).map(customerMapper::fromCustomer).get().firstName());
+        System.out.println("CustomerResponse.lastName() = " + customerRepository.findById(customerId).map(customerMapper::fromCustomer).get().lastName());
+        System.out.println("CustomerResponse.email() = " + customerRepository.findById(customerId).map(customerMapper::fromCustomer).get().email());
+
+
+        System.out.println("-------------------------------------------------------");
+
         return customerRepository.findById(customerId)
                 .map(customerMapper::fromCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException(

@@ -32,19 +32,25 @@ public class ProductService {
     }
 
     public List<ProductPurchaseResponse> purchaseProduct(List<ProductPurchaseRequest> productPurchaseRequestList) {
+        System.out.println("productPurchaseRequestList = " + productPurchaseRequestList);
+
         var productIds = productPurchaseRequestList.stream()
-                .map(ProductPurchaseRequest::productId)
+                .map(ProductPurchaseRequest::product_id)
                 .toList();
+
+        System.out.println("productIds = " + productIds);
 
         var storedProducts = productRepository.findAllByIdInOrderById(productIds);
 
         if (storedProducts.size() != productIds.size()) {
+            System.out.println("storedProducts.size() = " + storedProducts.size());
+            System.out.println("productIds.size() = " + productIds.size());
             throw new ProductPurchaseException("Some products don't exist on Database");
         }
 
         var storedRequest = productPurchaseRequestList
                 .stream()
-                .sorted(Comparator.comparing(ProductPurchaseRequest::productId))
+                .sorted(Comparator.comparing(ProductPurchaseRequest::product_id))
                 .toList();
 
         var purchasedProducts = new ArrayList<ProductPurchaseResponse>();

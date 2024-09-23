@@ -20,7 +20,7 @@ public class OrderLineController {
     private final OrderLineService orderLineService;
 
     @GetMapping("/order/{order_id}")
-    public ResponseEntity<List<OrderLineResponse>> findByOrderId(@PathVariable Integer order_id) {
+    public ResponseEntity<List<OrderLineResponse>> findByOrderId(@PathVariable("order_id") Integer order_id) {
         return ResponseEntity.status(HttpStatus.OK).body(orderLineService.findByOrderId(order_id));
     }
 }

@@ -1,5 +1,5 @@
 spring:
+  config:
+    import: optional:configserver:http://localhost:8888 # 반드시 해당 주소 조심하기 : http://config-server:8888 이렇게 오해함.
   application:
     name: payment-service
-  config:
-    import: optional:configserver:http://config-server:8888

@@ -36,17 +36,35 @@ public class NotificationConsumer {
                         .build());
 
         // send email
-        var customerName = paymentConfirmation.customer_first_name() + " " + paymentConfirmation.customer_last_name();
+        var customer_name = paymentConfirmation.customer_first_name() + " " + paymentConfirmation.customer_last_name();
+
+        System.out.println("customer_name: " + customer_name);
+        System.out.println("paymentConfirmation.total_amount(): " + paymentConfirmation.payment_amount());
+        System.out.println("paymentConfirmation.order_reference(): " + paymentConfirmation.order_reference());
+        System.out.println("paymentConfirmation.customer_email(): " + paymentConfirmation.customer_email());
+        System.out.println("paymentConfirmation.customer_first_name(): " + paymentConfirmation.customer_first_name());
+        System.out.println("paymentConfirmation.customer_last_name(): " + paymentConfirmation.customer_last_name());
+
         emailService.sendPaymentSuccessEmail(
                 paymentConfirmation.customer_email(),
-                customerName,
-                paymentConfirmation.total_amount(),
+                customer_name,
+                paymentConfirmation.payment_amount(),
                 paymentConfirmation.order_reference());
 
     }
 
     @KafkaListener(topics = "order-topic")
     public void consumeOrderSuccessNotification(OrderConfirmation orderConfirmation) throws MessagingException {
+        System.out.println("-----------------consumeOrderSuccessNotification-----------------");
+        System.out.println("consumeOrderSuccessNotification: " + orderConfirmation);
+        System.out.println("orderConfirmation.customer().first_name(): " + orderConfirmation.customer().firstName());
+        System.out.println("orderConfirmation.customer().last_name(): " + orderConfirmation.customer().lastName());
+        System.out.println("orderConfirmation.customer().email(): " + orderConfirmation.customer().email());
+        System.out.println("orderConfirmation.totalAmount(): " + orderConfirmation.totalAmount());
+        System.out.println("orderConfirmation.orderReference(): " + orderConfirmation.orderReference());
+        System.out.println("orderConfirmation.products(): " + orderConfirmation.products());
+        System.out.println("-----------------consumeOrderSuccessNotification-----------------");
+
         log.info(String.format("Consumed order confirmation -> %s", orderConfirmation));
         notificationRepository.save(
                 Notification.builder()
@@ -56,12 +74,12 @@ public class NotificationConsumer {
                         .build());
 
         // send email
-        var customerName = orderConfirmation.customer().first_name() + " " + orderConfirmation.customer().last_name();
+        var customerName = orderConfirmation.customer().firstName() + " " + orderConfirmation.customer().lastName();
         emailService.sendOrderConfirmationEmail(
                 orderConfirmation.customer().email(),
                 customerName,
-                orderConfirmation.total_amount(),
-                orderConfirmation.order_reference(),
+                orderConfirmation.totalAmount(),
+                orderConfirmation.orderReference(),
                 orderConfirmation.products()
                 );
     }

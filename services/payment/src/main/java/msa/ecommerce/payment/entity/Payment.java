@@ -22,7 +22,7 @@ import static jakarta.persistence.EnumType.STRING;
 public class Payment {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private BigDecimal amount;
     @Enumerated(STRING)

@@ -1,38 +1,88 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Order Confirmation</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
 <div class="container">
-    <h1 class="my-4">Order Confirmation</h1>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Order Reference: <span th:text="${orderConfirmation.order_reference}"></span></h5>
-            <p>Thank you, <span th:text="${orderConfirmation.customer.firstName} + ' ' + ${orderConfirmation.customer.lastName}"></span>!</p>
+    <h1>Order Details</h1>
+    <p>Customer: <span th:text="${customerName}"></span></p>
+    <p>Order ID: <span th:text="${orderReference}"></span></p>
 
-            <p>Your payment of
-                <strong th:text="${#numbers.formatDecimal(orderConfirmation.total_amount, 2, 'COMMA', 'POINT')}"></strong>
-                was successful.
-            </p>
-            <p>Payment Method: <strong th:text="${orderConfirmation.payment_method}"></strong></p>
+    <table>
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.quantity}"></td>
+            <td th:text="${product.price}"></td>
+        </tr>
+        </tbody>
+    </table>
 
-            <h5>Products:</h5>
-            <ul>
-                <li th:each="product : ${orderConfirmation.products}">
-                    <span th:text="${product.name}"></span> - <strong th:text="${#numbers.formatDecimal(product.price, 2, 'COMMA', 'POINT')}"></strong>
-                </li>
-            </ul>
-
-            <p>A confirmation email has been sent to: <strong th:text="${orderConfirmation.customer.email}"></strong></p>
-        </div>
-    </div>
-
-    <div class="mt-4">
-        <a href="/" class="btn btn-primary">Go Back to Home</a>
+    <div class="footer">
+        <p>Total Amount: $<span th:text="${total_amount}"></span></p>
+        <p>This is an automated message. Please do not reply to this email.</p>
+        <p>&copy; 2024 AlibouCoding</span>. All rights reserved.</p>
     </div>
 </div>
 </body>
+
 </html>

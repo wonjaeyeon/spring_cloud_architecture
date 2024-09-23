@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record OrderConfirmation(
-        String order_reference,
-        BigDecimal total_amount,
-        PaymentMethod payment_method,
+        String orderReference,
+        BigDecimal totalAmount,
+        PaymentMethod paymentMethod,
         Customer customer,
         List<Product> products
 ) {

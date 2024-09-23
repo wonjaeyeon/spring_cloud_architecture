@@ -32,6 +32,7 @@ public class ProductClient {
         headers.set(CONTENT_TYPE, APPLICATION_JSON_VALUE);
 
         HttpEntity<List<PurchaseRequest>> requestEntity = new HttpEntity<>(purchaseRequests, headers);
+        System.out.println("requestEntity = " + requestEntity);
 
         ParameterizedTypeReference<List<PurchaseResponse>> responseType =
                 new ParameterizedTypeReference<>() {};

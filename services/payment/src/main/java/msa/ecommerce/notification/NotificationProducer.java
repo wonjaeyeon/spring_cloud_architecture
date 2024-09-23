@@ -23,6 +23,7 @@ public class NotificationProducer {
                 .withPayload(paymentNotificationRequest)
                 .setHeader(TOPIC, "payment-topic")
                 .build();
+
         kafkaTemplate.send("payment-topic", paymentNotificationRequest);
     }
 

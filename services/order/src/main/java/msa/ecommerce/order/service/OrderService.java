@@ -1,5 +1,6 @@
 package msa.ecommerce.order.service;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import msa.ecommerce.customer.client.CustomerClient;
@@ -37,6 +38,7 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
+    @Autowired
     private final CustomerClient customerClient;
 
     private final ProductClient productClient;
@@ -63,6 +65,7 @@ public class OrderService {
                 ));
     }
 
+    @Transactional
     public Integer createOrder(OrderRequest orderRequest) {
         // NOTE : 늘 항상 Requirement를 고려하며
         // check the customer --> OpenFeign (customer-ms)
@@ -70,12 +73,21 @@ public class OrderService {
                 .orElseThrow(() -> new BusinessException(
                         String.format("Customer with id %s not found", orderRequest.customer_id())
                 ));
+        System.out.println("-----------------OrderService.createOrder----------------");
+        System.out.println("customer = " + customer);
+        // customer Name
+        System.out.println("customer.firstName() = " + customer.firstName());
+        System.out.println("customer.lastName() = " + customer.lastName());
+        System.out.println("orderRequest = " + orderRequest);
+        System.out.println("---------------------------------------------------------");
+
         // purchase the products --> product-ms(RestTemplate)
         var purchaseProducts = this.productClient.purchaseProducts(orderRequest.products());
 
         // persist the order
-        Order order = orderMapper.toOrder(orderRequest);
-        orderRepository.save(order);
+        var order = orderRepository.save(
+                orderMapper.toOrder(orderRequest)
+        );
 
         // persist the order line
         for (PurchaseRequest product : orderRequest.products()) {

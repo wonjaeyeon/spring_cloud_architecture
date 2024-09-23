@@ -38,12 +38,22 @@ public class PaymentService {
     public Integer createPayment(@Valid PaymentRequest paymentRequest) {
         var payment = paymentRepository.save(paymentMapper.toPayment(paymentRequest));
 
+        System.out.println("-------------------------------------------------------");
+        System.out.println("paymentRequest.payment_id() = " + paymentRequest.payment_id());
+        System.out.println("paymentRequest.payment_amount() = " + paymentRequest.payment_amount());
+        System.out.println("paymentRequest.order_reference() = " + paymentRequest.order_reference());
+        System.out.println("paymentRequest.payment_method() = " + paymentRequest.payment_method());
+        System.out.println("paymentRequest.customer().firstName() = " + paymentRequest.customer().firstName());
+        System.out.println("paymentRequest.customer().lastName() = " + paymentRequest.customer().lastName());
+        System.out.println("paymentRequest.customer().email() = " + paymentRequest.customer().email());
+        System.out.println("-------------------------------------------------------");
+
         // send message to notification service
         notificationProducer.sendNotification(
                 new PaymentNotificationRequest(
+                        paymentRequest.order_reference(),
                         paymentRequest.payment_amount(),
                         paymentRequest.payment_method(),
-                        paymentRequest.order_reference(),
                         paymentRequest.customer().firstName(),
                         paymentRequest.customer().lastName(),
                         paymentRequest.customer().email()

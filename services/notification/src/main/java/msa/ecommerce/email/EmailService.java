@@ -26,13 +26,14 @@ import static msa.ecommerce.email.entity.EmailTemplate.PAYMENT_CONFIRMATION;
 @Slf4j
 public class EmailService {
 
+
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine springTemplateEngine;
 
     @Async
     public void sendPaymentSuccessEmail(
-            String destinationEmail,
-            String customerName,
+            String destination_email,
+            String customer_name,
             BigDecimal amount,
             String orderReference
     ) throws MessagingException {
@@ -43,14 +44,19 @@ public class EmailService {
                         MimeMessageHelper.MULTIPART_MODE_RELATED,
                         UTF_8.name());
         messageHelper.setFrom("contact@woncoding.com");
-        messageHelper.setTo(destinationEmail);
+        messageHelper.setTo(destination_email);
 
         final String templateName = PAYMENT_CONFIRMATION.getTemplate();
 
         Map<String, Object> variables = new HashMap<>();
-        variables.put("customerName", customerName);
+        variables.put("customerName", customer_name);
+        System.out.println("customerName: " + customer_name);
+
         variables.put("amount", amount);
+        System.out.println("amount: " + amount);
+
         variables.put("orderReference", orderReference);
+        System.out.println("orderReference: " + orderReference);
 
         Context context = new Context(); // context from Thymeleaf
         context.setVariables(variables);
@@ -60,11 +66,11 @@ public class EmailService {
             String htmlTemplate = springTemplateEngine.process(templateName, context);
             messageHelper.setText(htmlTemplate, true);
 
-            messageHelper.setTo(destinationEmail);
+            messageHelper.setTo(destination_email);
             javaMailSender.send(mimeMessage);
-            log.info("Email sent successfully to {}", destinationEmail);
+            log.info("Email sent successfully to {}", destination_email);
         } catch (MessagingException e) {
-            log.warn("WARNING : Cannot send email to {}", destinationEmail);
+            log.warn("WARNING : Cannot send email to {}", destination_email);
 
         }
     }
@@ -89,14 +95,22 @@ public class EmailService {
         final String templateName = ORDER_CONFIRMATION.getTemplate();
 
         Map<String, Object> variables = new HashMap<>();
+
         variables.put("customerName", customerName);
+        System.out.println("customerName: " + customerName);
+
         variables.put("total_amount", amount);
+        System.out.println("total_amount: " + amount);
+
         variables.put("orderReference", orderReference);
+        System.out.println("orderReference: " + orderReference);
+
         variables.put("products", products);
+        System.out.println("products: " + products);
 
         Context context = new Context(); // context from Thymeleaf
         context.setVariables(variables);
-        messageHelper.setSubject(PAYMENT_CONFIRMATION.getSubject());
+        messageHelper.setSubject(ORDER_CONFIRMATION.getSubject());
 
         try{
             String htmlTemplate = springTemplateEngine.process(templateName, context);
