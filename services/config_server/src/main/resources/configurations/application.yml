@@ -1,0 +1,21 @@
+# 상속을 해주는 yml
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+spring:
+  cloud:
+    config:
+      override-system-properties: false # 다른 yml이 override하지 못하게 함
+
+
+# zipkin custom configuration
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # report 100% of traces

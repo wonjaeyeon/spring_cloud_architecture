@@ -1,0 +1,32 @@
+## want to add postgresql
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/spring_msa_payment
+    username: root
+    password: 135135won
+    driver-class-name: org.postgresql.Driver
+
+  # if table not exist, create table
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect # properties : hibernate : dialect: org.hibernate.dialect.PostgreSQLDialect 이거 없에니까 됨
+
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: paymentConfirmation:msa.ecommerce.notification.PaymentNotificationRequest # 이름 달라도 되는가?
+
+
+application: # 꼭 있어야 하는 것처럼 보임
+  config:
+    product-url: http://localhost:8222/api/v1/products
+
+
+server:
+  port: 8060

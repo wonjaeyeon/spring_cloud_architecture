@@ -1,0 +1,32 @@
+spring:
+  cloud:
+    gateway:
+      discovery: # want to connect to eureka server
+        locator:
+          enabled: true
+      routes:
+        - id: customer-service
+          uri: lb:http://CUSTOMER-SERVICE
+          predicates: # in grammar, the part of a sentence that contains the verb and gives information about the subject:
+            - Path=/api/v1/customers/**
+            #- Headers=TENCENT_HEADER # 이렇게 Header를 커스텀할 수 있다.
+        - id: order-service
+          uri: lb:http://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/orders/**
+        - id: order-lines-service
+          uri: lb:http://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/order-lines/**
+        - id: product-service
+          uri: lb:http://PRODUCT-SERVICE # load balancing to product-service
+          predicates:
+            - Path=/api/v1/products/**
+        - id: payment-service
+          uri: lb:http://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/v1/payments/**
+
+
+server:
+  port: 8222

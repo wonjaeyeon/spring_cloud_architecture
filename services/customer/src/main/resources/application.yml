@@ -1,0 +1,22 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: customer-service
+
+
+#  data:
+#    mongodb:
+#      # username: root
+#      # password: 135135won
+#      host: localhost
+#      port: 27017
+#      database: msa_project
+#      # ref : https://www.mongodb.com/community/forums/t/objects-getting-auto-saved-in-test-database-instead-of-user-database/234137/2
+#      # mongodb+srv://user:pass@gettingstarted.x000y.mongodb.net/DbName?retryWrites=true&w=majority
+#      # uri: mongodb://root:135135won@localhost:27017/msa_project?retryWrites=true&w=majority
+#      # uri: mongodb://root:135135won@localhost:27017/msa_project?retryWrites=true&w=majority
+#      # authentication-database: admin
+#
+#server:
+#  port: 8090

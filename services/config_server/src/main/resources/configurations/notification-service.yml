@@ -1,0 +1,44 @@
+spring:
+  data:
+    mongodb:
+      username: root
+      password: 135135won
+      host: localhost
+      port: 27017
+      database: msa_project_notification
+      # ref : https://www.mongodb.com/community/forums/t/objects-getting-auto-saved-in-test-database-instead-of-user-database/234137/2
+      # mongodb+srv://user:pass@gettingstarted.x000y.mongodb.net/DbName?retryWrites=true&w=majority
+      # uri: mongodb://root:135135won@localhost:27017/msa_project?retryWrites=true&w=majority
+      # uri: mongodb://root:135135won@localhost:27017/msa_project?retryWrites=true&w=majority
+      authentication-database: admin
+      # EOF ERROR : 연결 시 url에 ?authSource=admin 추가해주면 작동 됨
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: paymentGroup, orderGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.json.type.mapping: orderConfirmation:msa.ecommerce.kafka.order.OrderConfirmation, paymentConfirmation:msa.ecommerce.kafka.payment.PaymentConfirmation
+
+  mail:
+    host: localhost
+    port: 1025
+    username: root
+    password: 135135won
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enable: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+
+server:
+    port: 8040
