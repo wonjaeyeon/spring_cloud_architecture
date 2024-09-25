@@ -12,3 +12,10 @@ spring:
   cloud:
     config:
       override-system-properties: false # 다른 yml이 override하지 못하게 함
+
+
+# zipkin custom configuration
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # report 100% of traces

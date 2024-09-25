@@ -1,4 +1,4 @@
-package msa.ecommerce.payment.entity;
+package msa.ecommerce.payment.request;
 
 public enum PaymentMethod {
     PAYPAL,
